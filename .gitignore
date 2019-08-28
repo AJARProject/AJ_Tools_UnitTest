@@ -1,0 +1,11 @@
+/HDI*
+/*.docx
+*.4darchive
+userPreferences.*
+*BuildApp*
+*.4DD
+*.journal
+*/Preferences/*
+Cache.xml
+Conversion*.json
+LogStyleSheet.xsl

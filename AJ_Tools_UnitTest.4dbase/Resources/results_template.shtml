@@ -1,0 +1,151 @@
+<!--#4DCODE
+C_OBJECT($1;$results)
+C_TEXT($2)
+$results:=$1
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Unit Tests Results</title>
+    <link rel="stylesheet" href="$4DEVAL($2)/bootstrap.min.css">
+    <script src="$4DEVAL($2)/jquery-3.3.1.slim.min.js"></script>
+    <script src="$4DEVAL($2)/popper.min.js"></script>
+    <script src="$4DEVAL($2)/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <!--#4DCODE
+    if($results.count=$results.countPass)
+      $class:="success"
+    else
+      if($results.count=$results.countFail)
+        $class:="danger"
+      else
+        $class:="warning"
+      end if
+    end if
+    $results.categories:=$results.categories.orderBy("category")
+    -->
+    <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.count)</span>
+    <span class="badge badge-success">Pass : $4DEVAL($results.countPass)</span>
+    <span class="badge badge-danger">Fail : $4DEVAL($results.countFail)</span>
+    <!--#4DEVAL $i:=0-->
+    <!--#4DLOOP ($i<$results.categories.length)-->
+    <!--#4DCODE
+      if($results.categories[$i].count=$results.categories[$i].countPass)
+        $class:="success"
+        $text:="white"
+      else
+        if($results.categories[$i].count=$results.categories[$i].countFail)
+          $class:="danger"
+          $text:="white"
+        else
+          $class:="warning"
+          $text:="black"
+        end if
+      end if
+      $results.categories[$i].descriptions:=$results.categories[$i].descriptions.orderBy("description")
+    -->
+
+    <div class="accordion" id="category$4DEVAL($i)">
+      <div class="card border-$4DEVAL($class)">
+        <div class="card-header text-$4DEVAL($text) bg-$4DEVAL($class)" id="category$4DEVAL($i)_header" data-toggle="collapse" data-target="#category$4DEVAL($i)_body" aria-expanded="true" aria-controls="category$4DEVAL($i)_body">
+          <span style="font-size:21pt"><b>$4DEVAL($results.categories[$i].category)</b></span>
+        </div>
+        <div id="category$4DEVAL($i)_body" class="collapse show" aria-labelledby="category$4DEVAL($i)_header" >
+          <div class="card-body">
+            
+            <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.categories[$i].count)</span>
+            <span class="badge badge-success">Pass : $4DEVAL($results.categories[$i].countPass)</span>
+            <span class="badge badge-danger">Fail : $4DEVAL($results.categories[$i].countFail)</span>
+
+            <!--#4DEVAL $j:=0-->
+            <!--#4DLOOP ($j<$results.categories[$i].descriptions.length)-->
+            <!--#4DCODE
+              if($results.categories[$i].descriptions[$j].count=$results.categories[$i].descriptions[$j].countPass)
+                $class:="success"
+                $text:="white"
+              else
+                if($results.categories[$i].descriptions[$j].count=$results.categories[$i].descriptions[$j].countFail)
+                  $class:="danger"
+                  $text:="white"
+                else
+                  $class:="warning"
+                  $text:="black"
+                end if
+              end if
+              $id:=String($i)+"_"+String($j)
+            -->
+            <div class="accordion" id="description$4DEVAL($id)">
+              <div class="card border-$4DEVAL($class)">
+                <div class="card-header text-$4DEVAL($text) bg-$4DEVAL($class)" id="description$4DEVAL($id)_header" data-toggle="collapse" data-target="#description$4DEVAL($id)_body" aria-expanded="true" aria-controls="description$4DEVAL($id)_body">
+                  <span style="font-size:17pt">$4DEVAL($results.categories[$i].descriptions[$j].description)</span>
+                </div>
+                <div id="description$4DEVAL($id)_body" class="collapse show" aria-labelledby="description$4DEVAL($id)_header" >
+                  <div class="card-body">
+                    
+                    <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.categories[$i].descriptions[$j].count)</span>
+                    <span class="badge badge-success">Pass : $4DEVAL($results.categories[$i].descriptions[$j].countPass)</span>
+                    <span class="badge badge-danger">Fail : $4DEVAL($results.categories[$i].descriptions[$j].countFail)</span>
+
+
+                    <!--#4DEVAL $k:=0-->
+                    <!--#4DLOOP ($k<$results.categories[$i].descriptions[$j].tests.length)-->
+                    <!--#4DCODE
+                      if($results.categories[$i].descriptions[$j].tests[$k].pass)
+                        $class:="success"
+                        $collapse:="hide"
+                      else
+                        $class:="danger"
+                        $collapse:="show"
+                      end if
+                      If (Value type($results.categories[$i].descriptions[$j].tests[$k].expected)=Is object) | (Value type($results.categories[$i].descriptions[$j].tests[$k].expected)=Is collection)
+                        $expected:=JSON Stringify($results.categories[$i].descriptions[$j].tests[$k].expected)
+                      Else 
+                        $expected:=String($results.categories[$i].descriptions[$j].tests[$k].expected)
+                      End if 
+                      
+                      If (Value type($results.categories[$i].descriptions[$j].tests[$k].actual)=Is object) | (Value type($results.categories[$i].descriptions[$j].tests[$k].actual)=Is collection)
+                        $actual:=JSON Stringify($results.categories[$i].descriptions[$j].tests[$k].actual)
+                      Else 
+                        $actual:=String($results.categories[$i].descriptions[$j].tests[$k].actual)
+                      End if 
+                      $id:=String($i)+"_"+String($j)+"_"+String($k)
+                    -->
+
+                    <div class="accordion" id="test$4DEVAL($id)">
+                      <div class="card border-$4DEVAL($class)">
+                        <div class="card-header text-white bg-$4DEVAL($class)" id="test$4DEVAL($id)_header" data-toggle="collapse" data-target="#test$4DEVAL($id)_body" aria-expanded="true" aria-controls="test$4DEVAL($id)_body">
+                          $4DEVAL($results.categories[$i].descriptions[$j].tests[$k].result)
+                        </div>
+                        <div id="test$4DEVAL($id)_body" class="collapse $4DEVAL($collapse)" aria-labelledby="test$4DEVAL($id)_header" >
+                          <div class="card-body text-$4DEVAL($class)">
+                            <!--#4DCODE
+                              
+                            -->
+                            Expected : <br />
+                            $4DEVAL($expected)<br />
+                            Actual : <br />
+                            $4DEVAL($actual)<br />
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  <!--#4DEVAL $k:=$k+1-->
+                  <!--#4DENDLOOP-->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--#4DEVAL $j:=$j+1-->
+            <!--#4DENDLOOP-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--#4DEVAL $i:=$i+1-->
+    <!--#4DENDLOOP-->
+  </body>
+</html>

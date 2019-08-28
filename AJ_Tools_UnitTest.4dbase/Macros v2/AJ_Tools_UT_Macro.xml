@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE macros SYSTEM "http://www.4d.com/dtd/2007/macros.dtd" >
+<macros>
+
+<macro name="UnitTest_Default_New" in_menu="true" type_ahead="true" type_ahead_text="_ut_new">
+<text>  // __UNIT_TEST
+
+$test:=New AJ_Tools_UT_describe ("My Test Description";Current method name)
+
+$test.given:="1+1"
+$test.should:="return 2"
+$test.expected:=2
+$test.actual:=1+1
+$test.assert()
+
+$test.given:="123*456"
+$test.should:="return 56088"
+$test.expected:=56088
+$test.actual:=123*456
+$test.assert()
+</text>
+</macro>
+
+</macros>

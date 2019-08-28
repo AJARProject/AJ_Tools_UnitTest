@@ -1,0 +1,8 @@
+AJ_Tools_UnitTest Change Logs
+
+v1.0 - GI - 12-17.07.2019 :
+- Initial version
+- Creation of the main describe and assert methods
+- Create a method that will parse the results to be logged
+- Tests on client/server
+- Implement a main window to display the results
