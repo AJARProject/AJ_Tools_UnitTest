@@ -39,9 +39,9 @@ You can find a PDF with a complete documentation on how to use the component.
 
 ### Results Window
 All tests pass
-![Result Window - all tests pass](https://github.com/AJARProject/AJ_Tools_UnitTest/blob/master/images/Explorer_webAreaView_allPass.png?raw=true)
+![Result Window - all tests pass](https://github.com/AJARProject/AJ_Tools_UnitTest/blob/master/images/AJ_Tools_UnitTest_Explorer_webAreaView_allPass.png?raw=true)
 One test fails
-![Result Window - one test fails](https://github.com/AJARProject/AJ_Tools_UnitTest/blob/master/images/Explorer_webAreaView_someFail.png?raw=true)
+![Result Window - one test fails](https://github.com/AJARProject/AJ_Tools_UnitTest/blob/master/images/AJ_Tools_UnitTest_Explorer_webAreaView_someFail.png?raw=true)
 
 ### Version
 1.0.0-Build9 (28.08.2019)
