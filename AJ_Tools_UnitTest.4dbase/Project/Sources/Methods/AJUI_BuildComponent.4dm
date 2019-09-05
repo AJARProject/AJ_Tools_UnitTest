@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true}
 
   // ----------------------------------------------------
   // User name (OS): Gary Criblez
@@ -44,14 +44,16 @@ $code_t:=Replace string:C233($code_t;$previousReleaseNumber_t;$releaseNumber_t)
 METHOD SET CODE:C1194($projectMethodPath_t;$code_t;*)
 
 If (Application type:C494=4D Remote mode:K5:5)
-	  //$path_t:=Get 4D folder(Current resources folder)+"Preferences"+Folder separator+"BuildApp"+Folder separator+"BuildApp.xml"
-	SHOW ON DISK:C922($path_t)
 Else 
 	$path_t:=Get 4D folder:C485(Database folder:K5:14;*)+"Preferences"+Folder separator:K24:12+"BuildApp"+Folder separator:K24:12+"BuildApp.xml"
+	BUILD APPLICATION:C871($path_t)
 End if 
 
-
 If (OK=1)
+	$macroFolder:=Folder:C1567(Get 4D folder:C485(Database folder:K5:14)+"Macros v2"+Folder separator:K24:12;fk platform path:K87:2)
+	If ($macroFolder.exists=True:C214) & ($macroFolder.isFolder=True:C214)
+		$macroFolder.copyTo(Folder:C1567($macroFolder.parent.parent.path+"AJ_Tools_UnitTest_Build/Components/AJ_Tools_UnitTest.4dbase/"))
+	End if 
 	ALERT:C41("Build OK")
 End if 
 
