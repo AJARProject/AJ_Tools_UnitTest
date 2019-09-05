@@ -37,7 +37,7 @@ Else
 	ARRAY TO COLLECTION:C1563($methods;$_name)
 End if 
 
-If (Is compiled mode:C492)
+If (Is compiled mode:C492(*))
 	  // In compile mode we cannot get the code of the method so we must run the existing methods
 	$path_logs:=Get 4D folder:C485(Logs folder:K5:19;*)+"UnitTestsResults.json"
 	If (Test path name:C476($path_logs)=Is a document:K24:1)
@@ -48,12 +48,14 @@ If (Is compiled mode:C492)
 End if 
 
 For each ($method_name;$methods)
-	If (Is compiled mode:C492=False:C215)
+	If (Is compiled mode:C492(*)=False:C215)  // If the host database is interpreted
+		  // We can get the code of every method to analyse if it is a unit test method that we must execute
 		METHOD GET CODE:C1190($method_name;$code;*)
 		If ($code="@  // __UNIT_TEST@") & ($method_name#Current method name:C684)
 			EXECUTE METHOD:C1007($method_name)
 		End if 
-	Else 
+	Else   // In compile mode
+		  // We take all the method that are registered in the existing result file to re-execute all the tests
 		If ($parsedResult.categories.query("descriptions[].method = :1";$method_name).length>0)
 			EXECUTE METHOD:C1007($method_name)
 		End if 

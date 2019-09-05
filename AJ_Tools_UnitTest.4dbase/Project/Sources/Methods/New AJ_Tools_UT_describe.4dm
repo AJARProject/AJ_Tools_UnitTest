@@ -22,7 +22,7 @@ If (False:C215)
 End if 
 
 C_OBJECT:C1216($0;$unitTest_obj)
-C_TEXT:C284($1;$2)
+C_TEXT:C284($1;$2;$3)
 
 $continue:=False:C215
 Case of 
