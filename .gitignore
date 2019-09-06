@@ -4,6 +4,7 @@
 userPreferences.*
 *BuildApp*
 *.4DD
+*.4DIndx
 *.journal
 */Preferences/*
 Cache.xml
