@@ -6,3 +6,6 @@ v1.0 - GI - 12-17.07.2019 :
 - Create a method that will parse the results to be logged
 - Tests on client/server
 - Implement a main window to display the results
+
+v1.0.1 - GI - 05.09.2019 :
+- [FIX] Test if the host database is compiled instead of the component.
