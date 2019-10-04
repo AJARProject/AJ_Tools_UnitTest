@@ -10,4 +10,6 @@ userPreferences.*
 Cache.xml
 Conversion*.json
 LogStyleSheet.xsl
-DerivedData
+**/DerivedData/**
+!**/DerivedData/*.json
+data.match
