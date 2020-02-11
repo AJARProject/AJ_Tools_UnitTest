@@ -45,7 +45,7 @@ METHOD SET CODE:C1194($projectMethodPath_t;$code_t;*)
 
 If (Application type:C494=4D Remote mode:K5:5)
 Else 
-	$path_t:=Get 4D folder:C485(Database folder:K5:14;*)+"Preferences"+Folder separator:K24:12+"BuildApp"+Folder separator:K24:12+"BuildApp.xml"
+	$path_t:=Get 4D folder:C485(Database folder:K5:14;*)+"Settings"+Folder separator:K24:12+"buildApp.4DSettings"
 	BUILD APPLICATION:C871($path_t)
 End if 
 
