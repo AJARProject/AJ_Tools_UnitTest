@@ -1,11 +1,7 @@
 /HDI*
 /*.docx
 *.4darchive
-userPreferences.*
 *BuildApp*
-*.4DD
-*.4DIndx
-*.journal
 */Preferences/*
 Cache.xml
 Conversion*.json
@@ -13,3 +9,38 @@ LogStyleSheet.xsl
 **/DerivedData/**
 !**/DerivedData/*.json
 data.match
+
+
+# 4D project architecture
+######################
+
+/Data/*
+/Logs/*
+/Project/DerivedData/*
+/Project/BuildSettings/*
+/Settings/*
+/userPreferences*/*
+/Builds/*
+
+# Don't need the data file, indexes, symbols, or journal
+*.4DD
+*.4DIndx
+*.4DIndy
+*symbols.txt
+*.journal
+
+# dont need the 4d info component folder_reports
+Folder_Reports
+
+# include the following if you want to ignore the database settings
+*.4DSettings
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
