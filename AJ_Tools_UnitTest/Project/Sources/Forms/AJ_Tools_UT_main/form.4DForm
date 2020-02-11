@@ -153,6 +153,7 @@
 					"width": 120,
 					"height": 21,
 					"stroke": "#000000",
+					"focusable": false,
 					"text": "Run All Tests",
 					"method": "ObjectMethods/runAll_btn.4dm",
 					"events": [
@@ -229,6 +230,7 @@
 					"width": 117,
 					"height": 21,
 					"stroke": "#000000",
+					"focusable": false,
 					"text": "Run Selected",
 					"method": "ObjectMethods/runSelected_btn.4dm",
 					"events": [
@@ -299,6 +301,7 @@
 					"height": 21,
 					"sizingX": "move",
 					"stroke": "#000000",
+					"focusable": false,
 					"text": "Switch View",
 					"method": "ObjectMethods/runSelected_btn1.4dm",
 					"events": [
