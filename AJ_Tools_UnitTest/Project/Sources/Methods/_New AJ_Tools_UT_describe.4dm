@@ -13,7 +13,7 @@ $test.should:="raise an error"
 
 $result:=New AJ_Tools_UT_describe 
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"New AJ_Tools_UT_describe")
-$test.expected.errorLine:=33
+$test.expected.errorLine:=34
 $test.expected.errorFormula:="ASSERT($continue;\"You must describe your test!\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: You must describe your test!"))
@@ -27,7 +27,7 @@ $test.given:="one argument"
 $test.should:="raise an error"
 $result:=New AJ_Tools_UT_describe ("description")
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"New AJ_Tools_UT_describe")
-$test.expected.errorLine:=33
+$test.expected.errorLine:=34
 $test.expected.errorFormula:="ASSERT($continue;\"You must describe your test!\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: You must describe your test!"))

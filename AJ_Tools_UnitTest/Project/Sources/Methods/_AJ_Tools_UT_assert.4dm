@@ -13,7 +13,7 @@ $tested_obj.assert:=Formula:C1597(AJ_Tools_UT_assert )
 $test.given:="an empty tested object"
 $test.should:="raise and stack 4 errors"
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"AJ_Tools_UT_assert")
-$test.expected.errorLine:=43
+$test.expected.errorLine:=42
 $test.expected.errorFormula:="ASSERT(False;\"Expected result is missing\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: Given description is missing"))
@@ -29,7 +29,7 @@ AJ_Tools_UT_Error:=New object:C1471
 $test.given:="an tested object with missing given property"
 $test.should:="raise 1 error"
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"AJ_Tools_UT_assert")
-$test.expected.errorLine:=31
+$test.expected.errorLine:=30
 $test.expected.errorFormula:="ASSERT(False;\"Given description is missing\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: Given description is missing"))
@@ -46,7 +46,7 @@ AJ_Tools_UT_Error:=New object:C1471
 $test.given:="an tested object with missing should property"
 $test.should:="raise 1 error"
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"AJ_Tools_UT_assert")
-$test.expected.errorLine:=35
+$test.expected.errorLine:=34
 $test.expected.errorFormula:="ASSERT(False;\"What should do the test?\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: What should do the test?"))
@@ -64,7 +64,7 @@ AJ_Tools_UT_Error:=New object:C1471
 $test.given:="an tested object with missing expected property"
 $test.should:="raise 1 error"
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"AJ_Tools_UT_assert")
-$test.expected.errorLine:=43
+$test.expected.errorLine:=42
 $test.expected.errorFormula:="ASSERT(False;\"Expected result is missing\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: Expected result is missing"))
@@ -81,7 +81,7 @@ AJ_Tools_UT_Error:=New object:C1471
 $test.given:="an tested object with missing actual property"
 $test.should:="raise 1 error"
 $test.expected:=New object:C1471("errorCode";-10518;"errorMethod";"AJ_Tools_UT_assert")
-$test.expected.errorLine:=39
+$test.expected.errorLine:=38
 $test.expected.errorFormula:="ASSERT(False;\"Actual result is missing\")"
 $test.expected.stack:=New collection:C1472
 $test.expected.stack.push(New object:C1471("code";-10518;"comp";"4DRT";"text";"Assert failed: Actual result is missing"))
