@@ -48,6 +48,8 @@ If ($AJ_Tools_UT_results.tests#Null:C1517)
 			$category_obj.countPass:=0
 			$category_obj.countFail:=0
 			$category_obj.descriptions:=New collection:C1472
+		Else 
+			$category_obj:=$result.categories.query("category = :1";$category)[0]
 		End if 
 		
 		If ($category_obj.descriptions.countValues($test.UUID;"UUID")=0)
@@ -59,6 +61,8 @@ If ($AJ_Tools_UT_results.tests#Null:C1517)
 			$description.count:=0
 			$description.countPass:=0
 			$description.countFail:=0
+		Else 
+			$description:=$category_obj.descriptions.query("UUID = :1";$test.UUID)[0]
 		End if 
 		
 		$result_temp:=New object:C1471()
