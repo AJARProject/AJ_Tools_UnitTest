@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true,"shared":true}
+//%attributes = {"invisible":true,"shared":true,"lang":"en"}
   // AJ_Tools_UT_getInfo -> return
   // return : (text) (return) version
   //
@@ -19,6 +19,6 @@ End if
 
 C_TEXT:C284($0)
 
-$version_t:="1.0.1-Build10"  // Thu, 05 Sep 2019 08:26:22 GMT
+$version_t:="1.0.1-Build12"  // Tue, 11 Feb 2020 11:08:56 GMT
 
 $0:="AJ_Tools_UT: "+$version_t
