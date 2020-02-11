@@ -14,13 +14,13 @@ data.match
 # 4D project architecture
 ######################
 
-/Data/*
-/Logs/*
-/Project/DerivedData/*
-/Project/BuildSettings/*
-/Settings/*
-/userPreferences*/*
-/Builds/*
+*/Data/*
+*/Logs/*
+*/Project/DerivedData/*
+*/Project/BuildSettings/*
+*/Settings/*
+userPreferences.*
+*/Builds/*
 
 # Don't need the data file, indexes, symbols, or journal
 *.4DD
