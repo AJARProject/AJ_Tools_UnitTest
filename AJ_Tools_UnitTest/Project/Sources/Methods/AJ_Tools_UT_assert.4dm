@@ -47,7 +47,12 @@ End if
 If ($continue)
 	$col1:=New collection:C1472(This:C1470.expected)
 	$col2:=New collection:C1472(This:C1470.actual)
-	This:C1470.result:=$col1.equal($col2;ck diacritical:K85:3)
+	If (Value type:C1509(This:C1470.expected)=Is real:K8:4)
+		This:C1470.result:=$col1.equal($col2)
+	Else 
+		This:C1470.result:=$col1.equal($col2;ck diacritical:K85:3)
+	End if 
+	
 	
 	AJ_Tools_UT_results.result:=AJ_Tools_UT_results.result & This:C1470.result
 	AJ_Tools_UT_results.tests.push(OB Copy:C1225(This:C1470))
