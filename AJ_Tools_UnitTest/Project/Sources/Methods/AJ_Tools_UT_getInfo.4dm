@@ -14,11 +14,11 @@ If (False:C215)
 	  // 
 	  //
 	  // ----------------------------------------------------
-	  // Copyrights (C) AJAR SA - 2019
+	  // Copyrights (C) AJAR SA - 2019-2020
 End if 
 
 C_TEXT:C284($0)
 
-$version_t:="1.0.2-Build19"  // Mon, 24 Feb 2020 14:40:00 GMT
+$version_t:="1.0.3-Build23"  // Mon, 24 Feb 2020 14:52:48 GMT
 
 $0:="AJ_Tools_UT: "+$version_t
