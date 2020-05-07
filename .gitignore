@@ -24,7 +24,6 @@ userPreferences.*
 # Don't need the data file, indexes, symbols, or journal
 *.4DD
 *.4DIndx
-*.4DIndy
 *symbols.txt
 *.journal
 
