@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true}
   // AJ_Tools_UT_buildComponent
   //
   // This method generates a version of the component

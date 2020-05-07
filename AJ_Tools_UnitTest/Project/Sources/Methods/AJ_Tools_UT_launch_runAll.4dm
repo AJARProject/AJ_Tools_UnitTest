@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true}
   // AJ_Tools_UT_launch_runAll ( { $methods } ) 
   //
   // $methods : (collection) (optional) methods to run the tests

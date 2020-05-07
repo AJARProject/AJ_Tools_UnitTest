@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true}
   // AJ_Tools_runAll_cb ( $parsedResult ) 
   //
   // $parsedResult : (object) parsed result returned by AJ_Tools_UT_runAll
