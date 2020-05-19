@@ -32,7 +32,7 @@ If (1=2)  // before R3 and classes
 	$test.assert()
 	
 Else   // R3 with classes
-	$test:=AJ_UnitTest .UnitTest.new("Sum()";Current method name:C684;"Math")
+	$test:=AJ_UnitTest .new("Sum()";Current method name:C684;"Math")
 	
 	$test.given:="no parameters"
 	$test.should:="return 0"
