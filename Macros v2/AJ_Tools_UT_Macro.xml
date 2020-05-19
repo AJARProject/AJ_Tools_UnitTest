@@ -5,7 +5,7 @@
 <macro name="UnitTest_Default_New" in_menu="true" type_ahead="true" type_ahead_text="_ut_new">
 <text>  // __UNIT_TEST
 
-$test:=New AJ_Tools_UT_describe ("My Test Description";Current method name)
+$test:=AJ_UnitTest .new("My Test Description";Current method name)
 
 $test.given:="1+1"
 $test.should:="return 2"
