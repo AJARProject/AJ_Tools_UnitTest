@@ -12,7 +12,6 @@ Class constructor
 	ASSERT:C1129($continue;"You must describe your test!")
 	
 	If ($continue)
-		  //this:=New object
 		This:C1470.UUID:=Generate UUID:C1066
 		This:C1470.describe:=$1
 		This:C1470.method:=$2

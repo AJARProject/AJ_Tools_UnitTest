@@ -17,9 +17,12 @@ If (False:C215)
 	  // Description
 	  // Only one test must be created by method
 	  //
+	  // !!! DEPRECATED !!!
+	  // Still there for compatibility reason but will be removed
 	  // ----------------------------------------------------
 	  // Copyrights (C) AJAR SA - 2019
 End if 
+
 
 C_OBJECT:C1216($0;$unitTest_obj)
 C_TEXT:C284($1;$2;$3)
