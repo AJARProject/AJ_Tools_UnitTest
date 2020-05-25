@@ -16,7 +16,30 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
 
 You can find a PDF with a complete documentation on how to use the component.
 
-**Example**
+**Example v2 (From v18 R3)**
+
+      // __UNIT_TEST
+
+    $test:=AJ_UnitTest .new("Sum()";Current method name;"Math")
+
+    $test.given:="no parameters"
+    $test.should:="return 0"
+    $test.expected:=0
+    $test.actual:=zz_sum
+    $test.assert()
+
+    $test.given:="1 parameter (here 5)"
+    $test.should:="return 10 (addition itself)"
+    $test.expected:=10
+    $test.actual:=zz_sum (5)
+    $test.assert()
+
+    $test.given:="3 and 3"
+    $test.should:="return 6"
+    $test.expected:=6
+    $test.actual:=zz_sum (3;3)
+    $test.assert()
+**Example (Before v18 R3)**
 
       // __UNIT_TEST
 
