@@ -19,6 +19,6 @@ End if
 
 C_TEXT:C284($0)
 
-$version_t:="2.0.1-Build26"  // Tue, 19 May 2020 12:28:39 GMT
+$version_t:="2.0.1-Build29"  // Thu, 04 Jun 2020 13:54:15 GMT
 
 $0:="AJ_Tools_UT: "+$version_t

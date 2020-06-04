@@ -1,4 +1,4 @@
-//%attributes = {"shared":true}
+//%attributes = {"invisible":true,"shared":true}
   // Launch the main unit test window to display the results
   // Copyrights (C) AJAR SA - 2019
 
