@@ -14,7 +14,7 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
 
 ### Documentation
 
-You can find a PDF with a complete documentation on how to use the component.
+[wiki AJ_Tools_UnitTest](https://github.com/AJARProject/AJ_Tools_UnitTest/wiki)
 
 **Example v2 (From v18 R3)**
 
