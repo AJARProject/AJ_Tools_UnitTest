@@ -12,7 +12,7 @@
 
 ## Description
 
-Expose la classe UnitTest a la base hôte
+Exposes the unit test class at the host base.
 
 ## Example
 
