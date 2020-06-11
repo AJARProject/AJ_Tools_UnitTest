@@ -70,6 +70,12 @@ All tests pass
 One test fails
 ![Result Window - one test fails](https://github.com/AJARProject/AJ_Tools_UnitTest/blob/master/images/AJ_Tools_UnitTest_Explorer_webAreaView_someFail.png?raw=true)
 
+### Version
+
+Minimal 4D Version : 
+ - 18 (using formula member function)
+ - 18 R3 (using class)
+
 ### Questions?
 
 If you have any question, you can ask them directly on github or write to info@ajar.ch
