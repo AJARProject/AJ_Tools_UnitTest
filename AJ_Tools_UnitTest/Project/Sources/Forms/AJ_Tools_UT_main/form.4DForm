@@ -260,7 +260,8 @@
 					"height": 480,
 					"sizingX": "grow",
 					"sizingY": "grow",
-					"contextMenu": "none"
+					"contextMenu": "none",
+					"webEngine": "system"
 				},
 				"_setSize": {
 					"type": "rectangle",
@@ -280,7 +281,9 @@
 					"left": 259,
 					"height": 490,
 					"sizingY": "grow",
-					"stroke": "#C0C0C0"
+					"stroke": "#C0C0C0",
+					"width": 0,
+					"startPoint": "topLeft"
 				},
 				"Line1": {
 					"type": "line",
@@ -310,5 +313,9 @@
 				}
 			}
 		}
-	]
+	],
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	}
 }
