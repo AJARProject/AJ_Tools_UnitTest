@@ -1,24 +1,25 @@
 ﻿<!--New AJ_Tools_UT_describe ( describe; method; {category} ) -> unit test instance -->
 
-# New AJ_Tools_UT_describe
-
-## Parameters
-
-* describe : (text) description of the test.
-* method : (text) method that execute the test (must be "Current method name").
-* category : (text) (optional) category of the test. This is used to separate multiple tests in different categories.
-
-## Return value
-
-(object) return a unit test object with the assert member function. This object will need 4 parameters (given, should, expected, actual) before to call the assert method.
 
 ## Description
 
 Create a new test. A test can then do multiple assert. Only one test must be created by method.
 
+
+```4d
+  New AJ_Tools_UT_describe ( describe; method; {category} ) -> instance
+```
+
+| Parameter | Type | In/Out | Description |
+| --------- | ---- | ------ | ----------- |
+| describe | text | in | description of the test. |
+| method | text | in | method that execute the test (must be "Current method name"). |
+| category | text | in | category of the test. This is used to separate multiple tests in different categories. |
+| instance | object | out | return a unit test object with the assert member function. This object will need 4 parameters (given, should, expected, actual) before to call the assert method. |
+
 ## Example
 
-```
+```4d
     // __UNIT_TEST
 
    $test:= New AJ_Tools_UT_describe ("Test the zz_max_method";Current method name;"Math")
