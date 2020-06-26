@@ -18,6 +18,7 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
 
 **Example v2 (From v18 R3)**
 
+```4d
       // __UNIT_TEST
 
     $test:=AJ_UnitTest .new("Sum()";Current method name;"Math")
@@ -39,8 +40,10 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
     $test.expected:=6
     $test.actual:=zz_sum (3;3)
     $test.assert()
+```
 **Example (Before v18 R3)**
 
+```4d
       // __UNIT_TEST
 
     $test:=New AJ_Tools_UT_describe ("Sum()";Current method name;"Math")
@@ -62,6 +65,7 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
     $test.expected:=6
     $test.actual:=zz_sum (3;3)
     $test.assert()
+ ```
 
 ### Results Window
 
