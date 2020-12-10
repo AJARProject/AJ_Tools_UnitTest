@@ -1,11 +1,24 @@
 AJ_Tools_UnitTest Change Logs
 
 v1.0 - GI - 12-17.07.2019 :
-- Initial version
-- Creation of the main describe and assert methods
-- Create a method that will parse the results to be logged
-- Tests on client/server
-- Implement a main window to display the results
+ - Initial version
+ - Creation of the main describe and assert methods
+ - Create a method that will parse the results to be logged
+ - Tests on client/server
+ - Implement a main window to display the results
 
 v1.0.1 - GI - 05.09.2019 :
-- [FIX] Test if the host database is compiled instead of the component.
+ - [FIX] Test if the host database is compiled instead of the component.
+
+v2.0.0
+ - Create a unit test with a class
+
+v2.0.1
+ - Update the macro to use the new clas system
+
+v2.0.2
+ - Small fixes
+ -  add documentation
+
+v2.0.3
+ - Fix a display issue on Windows for the test results
