@@ -177,10 +177,10 @@
 					"width": 674,
 					"height": 46,
 					"stroke": "#FFFFFF",
-					"fontFamily": ".SF NS Text",
 					"fontSize": 48,
 					"fontWeight": "bold",
-					"text": "Unit Tests"
+					"text": "Unit Tests",
+					"fontTheme": "normal"
 				},
 				"lastTestDate_label": {
 					"type": "text",
@@ -191,10 +191,10 @@
 					"sizingX": "move",
 					"stroke": "#FFFFFF",
 					"textAlign": "right",
-					"fontFamily": ".SF NS Text",
 					"fontSize": 9,
 					"fontWeight": "bold",
-					"text": "Last Test at:"
+					"text": "Last Test at:",
+					"fontTheme": "normal"
 				},
 				"lastTestDate": {
 					"type": "input",
@@ -205,7 +205,6 @@
 					"sizingX": "move",
 					"dataSource": "Form:C1466.parsedResult.lastTestDate",
 					"stroke": "#FFFFFF",
-					"fontFamily": ".SF NS Text",
 					"fontSize": 9,
 					"fontWeight": "bold",
 					"focusable": false,
@@ -221,7 +220,8 @@
 						"onGettingFocus",
 						"onDataChange",
 						"onAfterEdit"
-					]
+					],
+					"fontTheme": "normal"
 				},
 				"runSelected_btn": {
 					"type": "button",
