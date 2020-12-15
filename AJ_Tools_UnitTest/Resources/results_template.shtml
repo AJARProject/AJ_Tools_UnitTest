@@ -1,19 +1,470 @@
 <!--#4DCODE
-C_OBJECT($1;$results)
-C_TEXT($2)
-$results:=$1
+  C_OBJECT($1;$results)
+  C_TEXT($2)
+  $results:=$1
 -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Unit Tests Results</title>
-    <link rel="stylesheet" href="$4DEVAL($2)/bootstrap.min.css">
-    <script src="$4DEVAL($2)/jquery-3.3.1.slim.min.js"></script>
-    <script src="$4DEVAL($2)/popper.min.js"></script>
-    <script src="$4DEVAL($2)/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <!--#4DCODE
+
+<head>
+  <title>Unit Tests Results</title>
+  <link rel="stylesheet" href="$4DEVAL($2)/bootstrap.min.css">
+  <script src="$4DEVAL($2)/jquery-3.3.1.slim.min.js"></script>
+  <script src="$4DEVAL($2)/popper.min.js"></script>
+  <script src="$4DEVAL($2)/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    /* See LICENSE file for terms of use */
+
+    /*
+     * Text diff implementation.
+     *
+     * This library supports the following APIS:
+     * JsDiff.diffChars: Character by character diff
+     * JsDiff.diffWords: Word (as defined by \b regex) diff which ignores whitespace
+     * JsDiff.diffLines: Line based diff
+     *
+     * JsDiff.diffCss: Diff targeted at CSS content
+     *
+     * These methods are based on the implementation proposed in
+     * "An O(ND) Difference Algorithm and its Variations" (Myers, 1986).
+     * http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.6927
+     */
+    var JsDiff = (function () {
+      /*jshint maxparams: 5*/
+      function clonePath(path) {
+        return {
+          newPos: path.newPos,
+          components: path.components.slice(0)
+        };
+      }
+
+      function removeEmpty(array) {
+        var ret = [];
+        for (var i = 0; i < array.length; i++) {
+          if (array[i]) {
+            ret.push(array[i]);
+          }
+        }
+        return ret;
+      }
+
+      function escapeHTML(s) {
+        var n = s;
+        n = n.replace(/&/g, '&amp;');
+        n = n.replace(/</g, '&lt;');
+        n = n.replace(/>/g, '&gt;');
+        n = n.replace(/"/g, '&quot;');
+
+        return n;
+      }
+
+      var Diff = function (ignoreWhitespace) {
+        this.ignoreWhitespace = ignoreWhitespace;
+      };
+      Diff.prototype = {
+        diff: function (oldString, newString) {
+          // Handle the identity case (this is due to unrolling editLength == 0
+          if (newString === oldString) {
+            return [{
+              value: newString
+            }];
+          }
+          if (!newString) {
+            return [{
+              value: oldString,
+              removed: true
+            }];
+          }
+          if (!oldString) {
+            return [{
+              value: newString,
+              added: true
+            }];
+          }
+
+          newString = this.tokenize(newString);
+          oldString = this.tokenize(oldString);
+
+          var newLen = newString.length,
+            oldLen = oldString.length;
+          var maxEditLength = newLen + oldLen;
+          var bestPath = [{
+            newPos: -1,
+            components: []
+          }];
+
+          // Seed editLength = 0
+          var oldPos = this.extractCommon(bestPath[0], newString, oldString, 0);
+          if (bestPath[0].newPos + 1 >= newLen && oldPos + 1 >= oldLen) {
+            return bestPath[0].components;
+          }
+
+          for (var editLength = 1; editLength <= maxEditLength; editLength++) {
+            for (var diagonalPath = -1 * editLength; diagonalPath <= editLength; diagonalPath += 2) {
+              var basePath;
+              var addPath = bestPath[diagonalPath - 1],
+                removePath = bestPath[diagonalPath + 1];
+              oldPos = (removePath ? removePath.newPos : 0) - diagonalPath;
+              if (addPath) {
+                // No one else is going to attempt to use this value, clear it
+                bestPath[diagonalPath - 1] = undefined;
+              }
+
+              var canAdd = addPath && addPath.newPos + 1 < newLen;
+              var canRemove = removePath && 0 <= oldPos && oldPos < oldLen;
+              if (!canAdd && !canRemove) {
+                bestPath[diagonalPath] = undefined;
+                continue;
+              }
+
+              // Select the diagonal that we want to branch from. We select the prior
+              // path whose position in the new string is the farthest from the origin
+              // and does not pass the bounds of the diff graph
+              if (!canAdd || (canRemove && addPath.newPos < removePath.newPos)) {
+                basePath = clonePath(removePath);
+                this.pushComponent(basePath.components, oldString[oldPos], undefined, true);
+              } else {
+                basePath = clonePath(addPath);
+                basePath.newPos++;
+                this.pushComponent(basePath.components, newString[basePath.newPos], true, undefined);
+              }
+
+              var oldPos = this.extractCommon(basePath, newString, oldString, diagonalPath);
+
+              if (basePath.newPos + 1 >= newLen && oldPos + 1 >= oldLen) {
+                return basePath.components;
+              } else {
+                bestPath[diagonalPath] = basePath;
+              }
+            }
+          }
+        },
+
+        pushComponent: function (components, value, added, removed) {
+          var last = components[components.length - 1];
+          if (last && last.added === added && last.removed === removed) {
+            // We need to clone here as the component clone operation is just
+            // as shallow array clone
+            components[components.length - 1] = {
+              value: this.join(last.value, value),
+              added: added,
+              removed: removed
+            };
+          } else {
+            components.push({
+              value: value,
+              added: added,
+              removed: removed
+            });
+          }
+        },
+        extractCommon: function (basePath, newString, oldString, diagonalPath) {
+          var newLen = newString.length,
+            oldLen = oldString.length,
+            newPos = basePath.newPos,
+            oldPos = newPos - diagonalPath;
+          while (newPos + 1 < newLen && oldPos + 1 < oldLen && this.equals(newString[newPos + 1], oldString[oldPos + 1])) {
+            newPos++;
+            oldPos++;
+
+            this.pushComponent(basePath.components, newString[newPos], undefined, undefined);
+          }
+          basePath.newPos = newPos;
+          return oldPos;
+        },
+
+        equals: function (left, right) {
+          var reWhitespace = /\S/;
+          if (this.ignoreWhitespace && !reWhitespace.test(left) && !reWhitespace.test(right)) {
+            return true;
+          } else {
+            return left === right;
+          }
+        },
+        join: function (left, right) {
+          return left + right;
+        },
+        tokenize: function (value) {
+          return value;
+        }
+      };
+
+      var CharDiff = new Diff();
+
+      var WordDiff = new Diff(true);
+      WordDiff.tokenize = function (value) {
+        return removeEmpty(value.split(/(\s+|\b)/));
+      };
+
+      var CssDiff = new Diff(true);
+      CssDiff.tokenize = function (value) {
+        return removeEmpty(value.split(/([{}:;,]|\s+)/));
+      };
+
+      var LineDiff = new Diff();
+      LineDiff.tokenize = function (value) {
+        return value.split(/^/m);
+      };
+
+      return {
+        Diff: Diff,
+
+        diffChars: function (oldStr, newStr) {
+          return CharDiff.diff(oldStr, newStr);
+        },
+        diffWords: function (oldStr, newStr) {
+          return WordDiff.diff(oldStr, newStr);
+        },
+        diffLines: function (oldStr, newStr) {
+          return LineDiff.diff(oldStr, newStr);
+        },
+
+        diffCss: function (oldStr, newStr) {
+          return CssDiff.diff(oldStr, newStr);
+        },
+
+        createPatch: function (fileName, oldStr, newStr, oldHeader, newHeader) {
+          var ret = [];
+
+          ret.push('Index: ' + fileName);
+          ret.push('===================================================================');
+          ret.push('--- ' + fileName + (typeof oldHeader === 'undefined' ? '' : '\t' + oldHeader));
+          ret.push('+++ ' + fileName + (typeof newHeader === 'undefined' ? '' : '\t' + newHeader));
+
+          var diff = LineDiff.diff(oldStr, newStr);
+          if (!diff[diff.length - 1].value) {
+            diff.pop(); // Remove trailing newline add
+          }
+          diff.push({
+            value: '',
+            lines: []
+          }); // Append an empty value to make cleanup easier
+
+          function contextLines(lines) {
+            return lines.map(function (entry) {
+              return ' ' + entry;
+            });
+          }
+
+          function eofNL(curRange, i, current) {
+            var last = diff[diff.length - 2],
+              isLast = i === diff.length - 2,
+              isLastOfType = i === diff.length - 3 && (current.added !== last.added || current.removed !== last.removed);
+
+            // Figure out if this is the last line for the given file and missing NL
+            if (!/\n$/.test(current.value) && (isLast || isLastOfType)) {
+              curRange.push('\\ No newline at end of file');
+            }
+          }
+
+          var oldRangeStart = 0,
+            newRangeStart = 0,
+            curRange = [],
+            oldLine = 1,
+            newLine = 1;
+          for (var i = 0; i < diff.length; i++) {
+            var current = diff[i],
+              lines = current.lines || current.value.replace(/\n$/, '').split('\n');
+            current.lines = lines;
+
+            if (current.added || current.removed) {
+              if (!oldRangeStart) {
+                var prev = diff[i - 1];
+                oldRangeStart = oldLine;
+                newRangeStart = newLine;
+
+                if (prev) {
+                  curRange = contextLines(prev.lines.slice(-4));
+                  oldRangeStart -= curRange.length;
+                  newRangeStart -= curRange.length;
+                }
+              }
+              curRange.push.apply(curRange, lines.map(function (entry) {
+                return (current.added ? '+' : '-') + entry;
+              }));
+              eofNL(curRange, i, current);
+
+              if (current.added) {
+                newLine += lines.length;
+              } else {
+                oldLine += lines.length;
+              }
+            } else {
+              if (oldRangeStart) {
+                // Close out any changes that have been output (or join overlapping)
+                if (lines.length <= 8 && i < diff.length - 2) {
+                  // Overlapping
+                  curRange.push.apply(curRange, contextLines(lines));
+                } else {
+                  // end the range and output
+                  var contextSize = Math.min(lines.length, 4);
+                  ret.push(
+                    '@@ -' + oldRangeStart + ',' + (oldLine - oldRangeStart + contextSize) + ' +' + newRangeStart + ',' + (newLine - newRangeStart + contextSize) + ' @@');
+                  ret.push.apply(ret, curRange);
+                  ret.push.apply(ret, contextLines(lines.slice(0, contextSize)));
+                  if (lines.length <= 4) {
+                    eofNL(ret, i, current);
+                  }
+
+                  oldRangeStart = 0;
+                  newRangeStart = 0;
+                  curRange = [];
+                }
+              }
+              oldLine += lines.length;
+              newLine += lines.length;
+            }
+          }
+
+          return ret.join('\n') + '\n';
+        },
+
+        applyPatch: function (oldStr, uniDiff) {
+          var diffstr = uniDiff.split('\n');
+          var diff = [];
+          var remEOFNL = false,
+            addEOFNL = false;
+
+          for (var i = (diffstr[0][0] === 'I' ? 4 : 0); i < diffstr.length; i++) {
+            if (diffstr[i][0] === '@') {
+              var meh = diffstr[i].split(/@@ -(\d+),(\d+) \+(\d+),(\d+) @@/);
+              diff.unshift({
+                start: meh[3],
+                oldlength: meh[2],
+                oldlines: [],
+                newlength: meh[4],
+                newlines: []
+              });
+            } else if (diffstr[i][0] === '+') {
+              diff[0].newlines.push(diffstr[i].substr(1));
+            } else if (diffstr[i][0] === '-') {
+              diff[0].oldlines.push(diffstr[i].substr(1));
+            } else if (diffstr[i][0] === ' ') {
+              diff[0].newlines.push(diffstr[i].substr(1));
+              diff[0].oldlines.push(diffstr[i].substr(1));
+            } else if (diffstr[i][0] === '\\') {
+              if (diffstr[i - 1][0] === '+') {
+                remEOFNL = true;
+              } else if (diffstr[i - 1][0] === '-') {
+                addEOFNL = true;
+              }
+            }
+          }
+
+          var str = oldStr.split('\n');
+          for (var i = diff.length - 1; i >= 0; i--) {
+            var d = diff[i];
+            for (var j = 0; j < d.oldlength; j++) {
+              if (str[d.start - 1 + j] !== d.oldlines[j]) {
+                return false;
+              }
+            }
+            Array.prototype.splice.apply(str, [d.start - 1, +d.oldlength].concat(d.newlines));
+          }
+
+          if (remEOFNL) {
+            while (!str[str.length - 1]) {
+              str.pop();
+            }
+          } else if (addEOFNL) {
+            str.push('');
+          }
+          return str.join('\n');
+        },
+
+        convertChangesToXML: function (changes) {
+          var ret = [];
+          for (var i = 0; i < changes.length; i++) {
+            var change = changes[i];
+            if (change.added) {
+              ret.push("<ins class='diff'>");
+            } else if (change.removed) {
+              ret.push("<del class='diff'>");
+            }
+
+            ret.push(escapeHTML(change.value));
+
+            if (change.added) {
+              ret.push('</ins>');
+            } else if (change.removed) {
+              ret.push('</del>');
+            }
+          }
+          return ret.join('');
+        },
+
+        // See: http://code.google.com/p/google-diff-match-patch/wiki/API
+        convertChangesToDMP: function (changes) {
+          var ret = [],
+            change;
+          for (var i = 0; i < changes.length; i++) {
+            change = changes[i];
+            ret.push([(change.added ? 1 : change.removed ? -1 : 0), change.value]);
+          }
+          return ret;
+        }
+      };
+    })();
+
+
+
+
+
+
+    $(document).ready(function () {
+
+      const items = [];
+      $(".expected").each(function (i, elem) {
+        items[i] = { "expected": elem }
+      });
+      $(".actual").each(function (i, elem) {
+        items[i].actual = elem;
+      });
+      // debugger;
+      items.forEach(function (item) {
+        // debugger;
+        var newText = JsDiff.convertChangesToXML(JsDiff["diffChars"]($(item.expected).text(), $(item.actual).text()));
+        item.expected.innerHTML = newText;
+        item.actual.innerHTML = newText;
+      })
+    });
+  </script>
+  <style type="text/css">
+    .expected ins {
+      display: none;
+    }
+
+    .expected del {
+      font-weight: bold;
+      color: white;
+      background-color: #28a745;
+      text-decoration: none;
+    }
+
+
+    .actual.danger ins {
+      font-weight: bold;
+      color: white;
+      background-color: #dc3545;
+      text-decoration: none;
+    }
+
+    .actual.success ins {
+      font-weight: bold;
+      color: white;
+      background-color: #28a745;
+      text-decoration: none;
+    }
+
+    .actual del {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!--#4DCODE
     if($results.count=$results.countPass)
       $class:="success"
     else
@@ -24,128 +475,139 @@ $results:=$1
       end if
     end if
     $results.categories:=$results.categories.orderBy("category")
-    -->
-    <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.count)</span>
-    <span class="badge badge-success">Pass : $4DEVAL($results.countPass)</span>
-    <span class="badge badge-danger">Fail : $4DEVAL($results.countFail)</span>
-    <!--#4DEVAL $i:=0-->
-    <!--#4DLOOP ($i<$results.categories.length)-->
-    <!--#4DCODE
-      if($results.categories[$i].count=$results.categories[$i].countPass)
-        $class:="success"
+  -->
+  <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.count)</span>
+  <span class="badge badge-success">Pass : $4DEVAL($results.countPass)</span>
+  <span class="badge badge-danger">Fail : $4DEVAL($results.countFail)</span>
+  <!--#4DEVAL $i:=0-->
+  <!--#4DLOOP ($i<$results.categories.length)-->
+  <!--#4DCODE
+    if($results.categories[$i].count=$results.categories[$i].countPass)
+      $class:="success"
+      $text:="white"
+    else
+      if($results.categories[$i].count=$results.categories[$i].countFail)
+        $class:="danger"
         $text:="white"
       else
-        if($results.categories[$i].count=$results.categories[$i].countFail)
-          $class:="danger"
-          $text:="white"
-        else
-          $class:="warning"
-          $text:="black"
-        end if
+        $class:="warning"
+        $text:="black"
       end if
-      $results.categories[$i].descriptions:=$results.categories[$i].descriptions.orderBy("description")
-    -->
+    end if
+    $results.categories[$i].descriptions:=$results.categories[$i].descriptions.orderBy("description")
+  -->
 
-    <div class="accordion" id="category$4DEVAL($i)">
-      <div class="card border-$4DEVAL($class)">
-        <div class="card-header text-$4DEVAL($text) bg-$4DEVAL($class)" id="category$4DEVAL($i)_header" data-toggle="collapse" data-target="#category$4DEVAL($i)_body" aria-expanded="true" aria-controls="category$4DEVAL($i)_body">
-          <span style="font-size:21pt"><b>$4DEVAL($results.categories[$i].category)</b></span>
-        </div>
-        <div id="category$4DEVAL($i)_body" class="collapse show" aria-labelledby="category$4DEVAL($i)_header" >
-          <div class="card-body">
-            
-            <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.categories[$i].count)</span>
-            <span class="badge badge-success">Pass : $4DEVAL($results.categories[$i].countPass)</span>
-            <span class="badge badge-danger">Fail : $4DEVAL($results.categories[$i].countFail)</span>
+  <div class="accordion" id="category$4DEVAL($i)">
+    <div class="card border-$4DEVAL($class)">
+      <div class="card-header text-$4DEVAL($text) bg-$4DEVAL($class)" id="category$4DEVAL($i)_header"
+        data-toggle="collapse" data-target="#category$4DEVAL($i)_body" aria-expanded="true"
+        aria-controls="category$4DEVAL($i)_body">
+        <span style="font-size:21pt"><b>$4DEVAL($results.categories[$i].category)</b></span>
+      </div>
+      <div id="category$4DEVAL($i)_body" class="collapse show" aria-labelledby="category$4DEVAL($i)_header">
+        <div class="card-body">
 
-            <!--#4DEVAL $j:=0-->
-            <!--#4DLOOP ($j<$results.categories[$i].descriptions.length)-->
-            <!--#4DCODE
-              if($results.categories[$i].descriptions[$j].count=$results.categories[$i].descriptions[$j].countPass)
-                $class:="success"
+          <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.categories[$i].count)</span>
+          <span class="badge badge-success">Pass : $4DEVAL($results.categories[$i].countPass)</span>
+          <span class="badge badge-danger">Fail : $4DEVAL($results.categories[$i].countFail)</span>
+
+          <!--#4DEVAL $j:=0-->
+          <!--#4DLOOP ($j<$results.categories[$i].descriptions.length)-->
+          <!--#4DCODE
+            if($results.categories[$i].descriptions[$j].count=$results.categories[$i].descriptions[$j].countPass)
+              $class:="success"
+              $text:="white"
+            else
+              if($results.categories[$i].descriptions[$j].count=$results.categories[$i].descriptions[$j].countFail)
+                $class:="danger"
                 $text:="white"
               else
-                if($results.categories[$i].descriptions[$j].count=$results.categories[$i].descriptions[$j].countFail)
-                  $class:="danger"
-                  $text:="white"
-                else
-                  $class:="warning"
-                  $text:="black"
-                end if
+                $class:="warning"
+                $text:="black"
               end if
-              $id:=String($i)+"_"+String($j)
-            -->
-            <div class="accordion" id="description$4DEVAL($id)">
-              <div class="card border-$4DEVAL($class)">
-                <div class="card-header text-$4DEVAL($text) bg-$4DEVAL($class)" id="description$4DEVAL($id)_header" data-toggle="collapse" data-target="#description$4DEVAL($id)_body" aria-expanded="true" aria-controls="description$4DEVAL($id)_body">
-                  <span style="font-size:17pt">$4DEVAL($results.categories[$i].descriptions[$j].description)</span>
-                </div>
-                <div id="description$4DEVAL($id)_body" class="collapse show" aria-labelledby="description$4DEVAL($id)_header" >
-                  <div class="card-body">
-                    
-                    <span class="badge badge-$4DEVAL($class)">Total : $4DEVAL($results.categories[$i].descriptions[$j].count)</span>
-                    <span class="badge badge-success">Pass : $4DEVAL($results.categories[$i].descriptions[$j].countPass)</span>
-                    <span class="badge badge-danger">Fail : $4DEVAL($results.categories[$i].descriptions[$j].countFail)</span>
+            end if
+            $id:=String($i)+"_"+String($j)
+          -->
+          <div class="accordion" id="description$4DEVAL($id)">
+            <div class="card border-$4DEVAL($class)">
+              <div class="card-header text-$4DEVAL($text) bg-$4DEVAL($class)" id="description$4DEVAL($id)_header"
+                data-toggle="collapse" data-target="#description$4DEVAL($id)_body" aria-expanded="true"
+                aria-controls="description$4DEVAL($id)_body">
+                <span style="font-size:17pt">$4DEVAL($results.categories[$i].descriptions[$j].description)</span>
+              </div>
+              <div id="description$4DEVAL($id)_body" class="collapse show"
+                aria-labelledby="description$4DEVAL($id)_header">
+                <div class="card-body">
+
+                  <span class="badge badge-$4DEVAL($class)">Total :
+                    $4DEVAL($results.categories[$i].descriptions[$j].count)</span>
+                  <span class="badge badge-success">Pass :
+                    $4DEVAL($results.categories[$i].descriptions[$j].countPass)</span>
+                  <span class="badge badge-danger">Fail :
+                    $4DEVAL($results.categories[$i].descriptions[$j].countFail)</span>
 
 
-                    <!--#4DEVAL $k:=0-->
-                    <!--#4DLOOP ($k<$results.categories[$i].descriptions[$j].tests.length)-->
-                    <!--#4DCODE
-                      if($results.categories[$i].descriptions[$j].tests[$k].pass)
-                        $class:="success"
-                        $collapse:="hide"
-                      else
-                        $class:="danger"
-                        $collapse:="show"
-                      end if
-                      If (Value type($results.categories[$i].descriptions[$j].tests[$k].expected)=Is object) | (Value type($results.categories[$i].descriptions[$j].tests[$k].expected)=Is collection)
-                        $expected:=JSON Stringify($results.categories[$i].descriptions[$j].tests[$k].expected)
-                      Else 
-                        $expected:=String($results.categories[$i].descriptions[$j].tests[$k].expected)
-                      End if 
-                      
-                      If (Value type($results.categories[$i].descriptions[$j].tests[$k].actual)=Is object) | (Value type($results.categories[$i].descriptions[$j].tests[$k].actual)=Is collection)
-                        $actual:=JSON Stringify($results.categories[$i].descriptions[$j].tests[$k].actual)
-                      Else 
-                        $actual:=String($results.categories[$i].descriptions[$j].tests[$k].actual)
-                      End if 
-                      $id:=String($i)+"_"+String($j)+"_"+String($k)
-                    -->
+                  <!--#4DEVAL $k:=0-->
+                  <!--#4DLOOP ($k<$results.categories[$i].descriptions[$j].tests.length)-->
+                  <!--#4DCODE
+                    if($results.categories[$i].descriptions[$j].tests[$k].pass)
+                      $class:="success"
+                      $collapse:="hide"
+                    else
+                      $class:="danger"
+                      $collapse:="show"
+                    end if
+                    If (Value type($results.categories[$i].descriptions[$j].tests[$k].expected)=Is object) | (Value type($results.categories[$i].descriptions[$j].tests[$k].expected)=Is collection)
+                      $expected:=JSON Stringify($results.categories[$i].descriptions[$j].tests[$k].expected)
+                    Else
+                      $expected:=String($results.categories[$i].descriptions[$j].tests[$k].expected)
+                    End if
 
-                    <div class="accordion" id="test$4DEVAL($id)">
-                      <div class="card border-$4DEVAL($class)">
-                        <div class="card-header text-white bg-$4DEVAL($class)" id="test$4DEVAL($id)_header" data-toggle="collapse" data-target="#test$4DEVAL($id)_body" aria-expanded="true" aria-controls="test$4DEVAL($id)_body">
-                          $4DEVAL($results.categories[$i].descriptions[$j].tests[$k].result)
-                        </div>
-                        <div id="test$4DEVAL($id)_body" class="collapse $4DEVAL($collapse)" aria-labelledby="test$4DEVAL($id)_header" >
-                          <div class="card-body text-$4DEVAL($class)">
-                            <!--#4DCODE
-                              
-                            -->
-                            Expected : <br />
-                            $4DEVAL($expected)<br />
-                            Actual : <br />
-                            $4DEVAL($actual)<br />
+                    If (Value type($results.categories[$i].descriptions[$j].tests[$k].actual)=Is object) | (Value type($results.categories[$i].descriptions[$j].tests[$k].actual)=Is collection)
+                      $actual:=JSON Stringify($results.categories[$i].descriptions[$j].tests[$k].actual)
+                    Else
+                      $actual:=String($results.categories[$i].descriptions[$j].tests[$k].actual)
+                    End if
+                    $id:=String($i)+"_"+String($j)+"_"+String($k)
+                  -->
 
+                  <div class="accordion" id="test$4DEVAL($id)">
+                    <div class="card border-$4DEVAL($class)">
+                      <div class="card-header text-white bg-$4DEVAL($class)" id="test$4DEVAL($id)_header"
+                        data-toggle="collapse" data-target="#test$4DEVAL($id)_body" aria-expanded="true"
+                        aria-controls="test$4DEVAL($id)_body">
+                        $4DEVAL($results.categories[$i].descriptions[$j].tests[$k].result)
+                      </div>
+                      <div id="test$4DEVAL($id)_body" class="collapse $4DEVAL($collapse)"
+                        aria-labelledby="test$4DEVAL($id)_header">
+                        <div class="card-body">
+                          <div class="text-success">Expected : <br />
+                            <div class="expected">$4DEVAL($expected)</div>
+                          </div>
+                          <br />
+                          <div class="text-$4DEVAL($class)"> Actual : <br />
+                            <div class="actual $4DEVAL($class)">$4DEVAL($actual)</div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
                   <!--#4DEVAL $k:=$k+1-->
                   <!--#4DENDLOOP-->
-                  </div>
                 </div>
               </div>
             </div>
-
-            <!--#4DEVAL $j:=$j+1-->
-            <!--#4DENDLOOP-->
           </div>
+
+          <!--#4DEVAL $j:=$j+1-->
+          <!--#4DENDLOOP-->
         </div>
       </div>
     </div>
-    <!--#4DEVAL $i:=$i+1-->
-    <!--#4DENDLOOP-->
-  </body>
+  </div>
+  <!--#4DEVAL $i:=$i+1-->
+  <!--#4DENDLOOP-->
+</body>
+
 </html>
