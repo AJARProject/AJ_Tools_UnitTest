@@ -22,3 +22,11 @@ v2.0.2
 
 v2.0.3
  - Fix a display issue on Windows for the test results
+
+v2.1.0
+ - Add an id for a test assert.
+   By default it start from 1 for each new test case.
+   You can pass any number or text
+   it will be displayed in the result after "#"
+ - Add a feature in the display result to see a diff of the expected and actual.
+   This will help to identify where is the difference when the output is big (object, collection or long text)

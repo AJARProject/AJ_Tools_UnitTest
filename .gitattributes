@@ -1,0 +1,16 @@
+# ====================================================================
+# Basic .gitattributes for a 4D repo.
+# ====================================================================
+
+* text=auto
+
+# ====================================================================
+# The above will handle all files NOT found below
+# ====================================================================
+
+# Source files
+*.4DProject         text      linguist-language=4d    diff=json
+*.4DCatalog         text      linguist-language=4d    diff=xml
+*.4DSettings        text      linguist-language=4d    diff=xml
+*.4DForm            text      linguist-language=4d    diff=json
+*.4dm               text      linguist-language=4d

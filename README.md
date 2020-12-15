@@ -1,3 +1,5 @@
+[![GitHub top language](https://img.shields.io/github/languages/top/AJARProject/AJ_Tools_UnitTest)](https://ch-fr.4d.com/) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/AJARProject/AJ_Tools_UnitTest?include_prereleases)
+
 # AJ_Tools_UnitTest
 
 AJ_Tools_UnitTest is a component developed with 4D v17 R5. Its purpose is to give 4D developers a way to do unit test and partial integration tests within 4D.
@@ -41,6 +43,7 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
     $test.actual:=zz_sum (3;3)
     $test.assert()
 ```
+
 **Example (Before v18 R3)**
 
 ```4d
@@ -65,7 +68,7 @@ Those 2 articles was the main resources that inspired me to developer AJ_Tools_U
     $test.expected:=6
     $test.actual:=zz_sum (3;3)
     $test.assert()
- ```
+```
 
 ### Results Window
 
@@ -76,9 +79,10 @@ One test fails
 
 ### Version
 
-Minimal 4D Version : 
- - 18 (using formula member function)
- - 18 R3 (using class)
+Minimal 4D Version :
+
+- 18 (using formula member function)
+- 18 R3 (using class)
 
 ### Questions?
 
