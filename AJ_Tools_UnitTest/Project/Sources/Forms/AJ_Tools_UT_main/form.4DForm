@@ -75,6 +75,19 @@
 					],
 					"columns": [
 						{
+							"header": {
+								"name": "Header4",
+								"text": "ID"
+							},
+							"name": "Column4",
+							"width": 35,
+							"dataSource": "This:C1470.id",
+							"footer": {
+								"name": "Footer4"
+							},
+							"textAlign": "center"
+						},
+						{
 							"name": "Column3",
 							"dataSource": "This:C1470.category",
 							"width": 120,
@@ -317,5 +330,18 @@
 	"$4d": {
 		"version": "1",
 		"kind": "form"
+	},
+	"editor": {
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {},
+			"WA": {
+				"visible": false,
+				"objects": [
+					"results_wa"
+				]
+			}
+		}
 	}
 }

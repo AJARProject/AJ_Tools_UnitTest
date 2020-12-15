@@ -18,8 +18,9 @@ Class constructor
 		If (Count parameters:C259=3)
 			This:C1470.category:=$3
 		End if 
+		This:C1470.counter:=1
 	End if 
 	
 	
 Function assert
-	AJ_Tools_UT_assert 
+	AJ_Tools_UT_assert

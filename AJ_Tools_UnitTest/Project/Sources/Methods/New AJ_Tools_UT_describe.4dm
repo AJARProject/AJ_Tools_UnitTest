@@ -1,26 +1,26 @@
 //%attributes = {"invisible":true,"shared":true}
-  // New AJ_Tools_UT_describe ( describe  ; method { ; category } ) -> return
-  //
-  // describe : (text) description of the test
-  // method : (text) method that execute the test (must be current method name)
-  // category : (text) (optional) category of the test. This is used to separate multiple tests in different categories
-  // return : (object) (return) return a unit test object with the assert member function. This object will need 4 parameters (given, should, expected, actual) before to call the assert method
-  //
-  // Create a new test. A test can then do multiple assert
+// New AJ_Tools_UT_describe ( describe  ; method { ; category } ) -> return
+//
+// describe : (text) description of the test
+// method : (text) method that execute the test (must be current method name)
+// category : (text) (optional) category of the test. This is used to separate multiple tests in different categories
+// return : (object) (return) return a unit test object with the assert member function. This object will need 4 parameters (given, should, expected, actual) before to call the assert method
+//
+// Create a new test. A test can then do multiple assert
 
 If (False:C215)
-	  // ----------------------------------------------------
-	  // User name (OS): gabriel inzirillo
-	  // Date and time: 12.07.19, 21:32:33
-	  // ----------------------------------------------------
-	  // Method: New AJ_Tools_UT_describe
-	  // Description
-	  // Only one test must be created by method
-	  //
-	  // !!! DEPRECATED !!!
-	  // Still there for compatibility reason but will be removed
-	  // ----------------------------------------------------
-	  // Copyrights (C) AJAR SA - 2019
+	// ----------------------------------------------------
+	// User name (OS): gabriel inzirillo
+	// Date and time: 12.07.19, 21:32:33
+	// ----------------------------------------------------
+	// Method: New AJ_Tools_UT_describe
+	// Description
+	// Only one test must be created by method
+	//
+	// !!! DEPRECATED !!!
+	// Still there for compatibility reason but will be removed
+	// ----------------------------------------------------
+	// Copyrights (C) AJAR SA - 2019
 End if 
 
 
@@ -45,6 +45,7 @@ If ($continue)
 	If (Count parameters:C259=3)
 		$unitTest_obj.category:=$3
 	End if 
-	$unitTest_obj.assert:=Formula:C1597(AJ_Tools_UT_assert )
+	$unitTest_obj.counter:=1
+	$unitTest_obj.assert:=Formula:C1597(AJ_Tools_UT_assert)
 	$0:=$unitTest_obj
 End if 
