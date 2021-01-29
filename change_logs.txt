@@ -30,3 +30,9 @@ v2.1.0
    it will be displayed in the result after "#"
  - Add a feature in the display result to see a diff of the expected and actual.
    This will help to identify where is the difference when the output is big (object, collection or long text)
+
+v2.1.0
+ - Feature: Add a button in the web view to open the test method
+ - Add the calling method in the assertion when something is wrong in the assert method (missing parameter(s)).
+ - Implement a visual feedback for the results listbox.
+   The text is red and bold for failing tests and green for passing tests.

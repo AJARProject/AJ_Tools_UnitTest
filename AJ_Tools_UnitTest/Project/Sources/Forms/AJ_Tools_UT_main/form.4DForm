@@ -275,7 +275,8 @@
 					"sizingX": "grow",
 					"sizingY": "grow",
 					"contextMenu": "none",
-					"webEngine": "system"
+					"webEngine": "embedded",
+					"methodsAccessibility": "all"
 				},
 				"_setSize": {
 					"type": "rectangle",
@@ -333,17 +334,16 @@
 		"kind": "form"
 	},
 	"editor": {
-		"activeView": "View 1",
+		"activeView": "WA",
 		"defaultView": "View 1",
 		"views": {
 			"View 1": {},
 			"WA": {
-				"visible": false,
 				"objects": [
 					"results_wa"
 				]
 			}
 		}
 	},
-	"geometryStamp": 22
+	"geometryStamp": 29
 }
