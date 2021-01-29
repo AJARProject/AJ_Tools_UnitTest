@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?><preferences stamp="3">
+	<com.4d>
+		<deployment>
+			<options/>
+		</deployment>
+		<server>
+			<network>
+				<client_server use_encryption="false"/>
+			</network>
+		</server>
+	</com.4d>
+</preferences>
