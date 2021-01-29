@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes = {"invisible":true}
 // results_lb_meta_cb () -> $meta
 //
 // This : current test object displayed in the result listbox
