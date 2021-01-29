@@ -8,10 +8,16 @@
 
 <head>
   <title>Unit Tests Results</title>
-  <link rel="stylesheet" href="$4DEVAL($2)/bootstrap.min.css">
-  <script src="$4DEVAL($2)/jquery-3.3.1.slim.min.js"></script>
-  <script src="$4DEVAL($2)/popper.min.js"></script>
-  <script src="$4DEVAL($2)/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="$4DEVAL($2)/bootstrap.min.css">
+  <script type="text/javascript" src="$4DEVAL($2)/jquery-3.3.1.slim.min.js"></script>
+  <script type="text/javascript" src="$4DEVAL($2)/popper.min.js"></script>
+  <script type="text/javascript" src="$4DEVAL($2)/bootstrap.min.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <script type="text/javascript" src="jquery-3.3.1.slim.min.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+
+
 
   <script type="text/javascript">
     /* See LICENSE file for terms of use */
@@ -408,9 +414,11 @@
     })();
 
 
-
-
-
+    function methodButton_cb(event) {
+      event.stopPropagation();
+      let methodName = event.target.getAttribute('data-methodname');
+      $4d.openMethod(methodName);
+    }
 
     $(document).ready(function () {
 
@@ -460,7 +468,12 @@
     .actual del {
       display: none;
     }
+
+    .methodButton {
+      float: right;
+    }
   </style>
+
 </head>
 
 <body>
@@ -534,6 +547,9 @@
                 data-toggle="collapse" data-target="#description$4DEVAL($id)_body" aria-expanded="true"
                 aria-controls="description$4DEVAL($id)_body">
                 <span style="font-size:17pt">$4DEVAL($results.categories[$i].descriptions[$j].description)</span>
+                <button onClick="methodButton_cb(event)"
+                  data-methodname="$4DEVAL($results.categories[$i].descriptions[$j].method)"
+                  class="methodButton btn btn-primary">Open Method</button>
               </div>
               <div id="description$4DEVAL($id)_body" class="collapse show"
                 aria-labelledby="description$4DEVAL($id)_header">
