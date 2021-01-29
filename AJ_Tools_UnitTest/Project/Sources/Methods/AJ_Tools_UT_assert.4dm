@@ -17,8 +17,9 @@ If (False:C215)
 	// ----------------------------------------------------
 	// Copyrights (C) AJAR SA - 2019
 End if 
-C_COLLECTION:C1488($col1;$col2)
+C_COLLECTION:C1488($col1; $col2)
 C_OBJECT:C1216(AJ_Tools_UT_results)
+C_TEXT:C284($method)
 
 If (AJ_Tools_UT_results=Null:C1517)
 	AJ_Tools_UT_results:=New object:C1471
@@ -26,21 +27,27 @@ If (AJ_Tools_UT_results=Null:C1517)
 	AJ_Tools_UT_results.result:=True:C214
 End if 
 
+If (This:C1470.method=Null:C1517)
+	$method:="Unknown"
+Else 
+	$method:=This:C1470.method
+End if 
+
 $continue:=True:C214
 If (This:C1470.given=Null:C1517)
-	ASSERT:C1129(False:C215;"Given description is missing")
+	ASSERT:C1129(False:C215; "Given description is missing; Calling method: "+$method)
 	$continue:=False:C215
 End if 
 If (This:C1470.should=Null:C1517)
-	ASSERT:C1129(False:C215;"What should do the test?")
+	ASSERT:C1129(False:C215; "What should do the test?; Calling method: "+$method)
 	$continue:=False:C215
 End if 
 If (This:C1470.actual=Null:C1517)
-	ASSERT:C1129(False:C215;"Actual result is missing")
+	ASSERT:C1129(False:C215; "Actual result is missing; Calling method: "+$method)
 	$continue:=False:C215
 End if 
 If (This:C1470.expected=Null:C1517)
-	ASSERT:C1129(False:C215;"Expected result is missing")
+	ASSERT:C1129(False:C215; "Expected result is missing; Calling method: "+$method)
 	$continue:=False:C215
 End if 
 If (This:C1470.id=Null:C1517)
@@ -53,7 +60,7 @@ If ($continue)
 	If (Value type:C1509(This:C1470.expected)=Is real:K8:4)
 		This:C1470.result:=$col1.equal($col2)
 	Else 
-		This:C1470.result:=$col1.equal($col2;ck diacritical:K85:3)
+		This:C1470.result:=$col1.equal($col2; ck diacritical:K85:3)
 	End if 
 	
 	
@@ -61,17 +68,17 @@ If ($continue)
 	AJ_Tools_UT_results.tests.push(OB Copy:C1225(This:C1470))
 	
 	If (AJ_Tools_UT_results.refWin#Null:C1517)
-		CALL FORM:C1391(AJ_Tools_UT_results.refWin;"AJ_Tools_runAll_cb";This:C1470)
+		CALL FORM:C1391(AJ_Tools_UT_results.refWin; "AJ_Tools_runAll_cb"; This:C1470)
 		// Delay to see tests by tests when executed in the window
-		DELAY PROCESS:C323(Current process:C322;2)
+		DELAY PROCESS:C323(Current process:C322; 2)
 	End if 
 	
 	// Reset the test for the next one
-	OB REMOVE:C1226(This:C1470;"given")
-	OB REMOVE:C1226(This:C1470;"should")
-	OB REMOVE:C1226(This:C1470;"actual")
-	OB REMOVE:C1226(This:C1470;"expected")
-	OB REMOVE:C1226(This:C1470;"result")
-	OB REMOVE:C1226(This:C1470;"id")
+	OB REMOVE:C1226(This:C1470; "given")
+	OB REMOVE:C1226(This:C1470; "should")
+	OB REMOVE:C1226(This:C1470; "actual")
+	OB REMOVE:C1226(This:C1470; "expected")
+	OB REMOVE:C1226(This:C1470; "result")
+	OB REMOVE:C1226(This:C1470; "id")
 	This:C1470.counter:=This:C1470.counter+1
 End if 
