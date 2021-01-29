@@ -8,10 +8,6 @@
 
 <head>
   <title>Unit Tests Results</title>
-  <!-- <link rel="stylesheet" type="text/css" href="$4DEVAL($2)/bootstrap.min.css">
-  <script type="text/javascript" src="$4DEVAL($2)/jquery-3.3.1.slim.min.js"></script>
-  <script type="text/javascript" src="$4DEVAL($2)/popper.min.js"></script>
-  <script type="text/javascript" src="$4DEVAL($2)/bootstrap.min.js"></script> -->
   <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
   <script type="text/javascript" src="jquery-3.3.1.slim.min.js"></script>
   <script type="text/javascript" src="popper.min.js"></script>
