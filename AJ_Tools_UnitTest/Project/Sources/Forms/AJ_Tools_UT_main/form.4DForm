@@ -73,6 +73,7 @@
 						"onSelectionChange",
 						"onHeaderClick"
 					],
+					"metaSource": "results_lb_meta_cb",
 					"columns": [
 						{
 							"header": {
@@ -198,7 +199,7 @@
 				"lastTestDate_label": {
 					"type": "text",
 					"top": 48,
-					"left": 613,
+					"left": 597,
 					"width": 151,
 					"height": 11,
 					"sizingX": "move",
@@ -212,8 +213,8 @@
 				"lastTestDate": {
 					"type": "input",
 					"top": 48,
-					"left": 766,
-					"width": 109,
+					"left": 750,
+					"width": 129,
 					"height": 13,
 					"sizingX": "move",
 					"dataSource": "Form:C1466.parsedResult.lastTestDate",
@@ -343,5 +344,6 @@
 				]
 			}
 		}
-	}
+	},
+	"geometryStamp": 22
 }
