@@ -432,6 +432,37 @@
         item.expected.innerHTML = newText;
         item.actual.innerHTML = newText;
       })
+
+      $(".badge-danger").click(function (evt) {
+        let elem = null;
+        if (evt.currentTarget.parentNode.parentNode.id != "") {
+          elem = $("#" + evt.currentTarget.parentNode.parentNode.id + " .border-success");
+        } else {
+          elem = $(".border-success");
+        }
+        if (elem.is(":visible")) {
+          elem.hide();
+        } else {
+          elem.show();
+        }
+        $(".border-danger").show();
+      });
+
+      $(".badge-success").click(function (evt) {
+        let elem = null;
+        if (evt.currentTarget.parentNode.parentNode.id != "") {
+          elem = $("#" + evt.currentTarget.parentNode.parentNode.id + " .border-danger");
+        } else {
+          elem = $(".border-danger");
+        }
+        if (elem.is(":visible")) {
+          elem.hide();
+        } else {
+          elem.show();
+        }
+        $(".border-success").show();
+      });
+
     });
   </script>
   <style type="text/css">
@@ -469,7 +500,9 @@
       float: right;
     }
 
-    .card-header {
+    .card-header,
+    .badge-success,
+    .badge-danger {
       cursor: pointer;
     }
   </style>
