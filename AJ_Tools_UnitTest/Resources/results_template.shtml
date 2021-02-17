@@ -468,6 +468,10 @@
     .methodButton {
       float: right;
     }
+
+    .card-header {
+      cursor: pointer;
+    }
   </style>
 
 </head>
