@@ -2,7 +2,7 @@
 
 # AJ_Tools_UnitTest
 
-AJ_Tools_UnitTest is a component developed with 4D v17 R5. Its purpose is to give 4D developers a way to do unit test and partial integration tests within 4D.
+AJ_Tools_UnitTest is a component originally developed with 4D v17 R5. Its purpose is to give 4D developers a way to do unit test and partial integration tests within 4D.
 
 It is made to be used in development environment but not in production. You can write unit tests and partial integration tests (no UI). You cannot write functional tests with this component.
 
@@ -10,7 +10,7 @@ It is made to be used in development environment but not in production. You can 
 
 This component was created under the inspiration of the Javascript unit test library [RITEway](https://github.com/ericelliott/riteway) developed by Eric Elliott, which is a master in the Test Driven Development.
 
-Those 2 articles was the main resources that inspired me to developer AJ_Tools_UnitTest component.
+Those 2 articles was the main resources that inspired me to create AJ_Tools_UnitTest component.
 [JavaScript Testing: Unit vs Functional vs Integration Tests](https://www.sitepoint.com/javascript-testing-unit-functional-integration/)
 [Rethinking Unit Test Assertions](https://medium.com/javascript-scene/rethinking-unit-test-assertions-55f59358253f)
 
